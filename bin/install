@@ -1,0 +1,44 @@
+#!/bin/bash
+
+stty sane # fixes a weird bug that can happen after pasting binary files
+
+if ! type "brew" >/dev/null 2>&1; then
+  # homebrew is not installed yet
+  echo "Installing homebrew (interactive)..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # NOTE: this homebrew install command already includes `xcode-select --install`
+fi
+
+if ! type "rbenv" >/dev/null 2>&1; then
+  # rbenv is not installed yet
+  echo "Installing rbenv..."
+  brew install rbenv
+fi
+
+REQUESTED_RUBY_VERSON=$(cat .ruby-version)
+CURRENT_RUBY_VERSION=$(ruby -v | cut -d ' ' -f2 | cut -d 'p' -f1)
+
+if [ "$REQUESTED_RUBY_VERSON" != "$CURRENT_RUBY_VERSION" ]; then
+  # the requested version of ruby is not installed yet
+  echo "Installing Ruby $REQUESTED_RUBY_VERSON..."
+  rbenv install $REQUESTED_RUBY_VERSON
+  gem install bundler -v 1.17.3
+fi
+
+if ls -la .git >/dev/null 2>&1; then
+  echo "Pulling the latest code..."
+  git pull -q
+fi
+
+echo "Installing dependencies..."
+bundle install --quiet
+
+LOCAL_CHROME_MAJOR_VERSION=$(/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version | cut -d ' ' -f3 | cut -d '.' -f1)
+LATEST_CHROMEDRIVER_RELEASE=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$LOCAL_CHROME_MAJOR_VERSION")
+
+echo "Installing chromedriver..."
+curl -sL "https://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER_RELEASE/chromedriver_mac64.zip" > tmp/chromedriver.zip
+unzip -q -o tmp/chromedriver.zip -d ./bin # this will overwrite the existing ./bin/chromedriver binary with the file just downloaded
+rm tmp/chromedriver.zip
+
+echo "Install complete!"

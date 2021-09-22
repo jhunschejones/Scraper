@@ -1,0 +1,4 @@
+bin/chromedriver
+tmp/log.txt
+*.DS_Store
+csv/*.csv
