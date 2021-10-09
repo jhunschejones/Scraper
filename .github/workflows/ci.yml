@@ -36,3 +36,8 @@ jobs:
           && chromedriver --version --no-sandbox --headless
     - name: Run tests
       run: bundle exec ./bin/test
+    - name: Archive test screenshots
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-screenshots
+        path: whatsuphere.png

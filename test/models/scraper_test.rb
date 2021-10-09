@@ -35,8 +35,8 @@ class ScraperTest < Test::Unit::TestCase
   end
 
   def test_successfully_finds_books_in_canada
-    scraper = Scraper.new(book_page_url: "https://www.amazon.ca/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M/ref=sr_1_1?dchild=1&keywords=seeing+jesus&qid=1627944583&sr=8-1")
+    scraper = Scraper.new(book_page_url: "https://www.amazon.ca/Sharing-Jesus-Seeing-Book-ebook/dp/B01E0EP1YG")
     scraper.run
-    assert scraper.books_found.count > 4
+    assert scraper.books_found.count > 10
   end
 end
