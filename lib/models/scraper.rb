@@ -52,8 +52,8 @@ class Scraper
 
   def start_driver
     raise "book_page_url is required" if book_page_url.empty?
-    service = Selenium::WebDriver::Service.chrome(path: "bin/chromedriver")
-    driver_options = Selenium::WebDriver::Chrome::Options.new(binary: "bin/chromedriver")
+    service = Selenium::WebDriver::Service.chrome(path: chromedriver_path)
+    driver_options = Selenium::WebDriver::Chrome::Options.new(binary: chromedriver_path)
     @driver = Selenium::WebDriver.for(:chrome, service: service)
     driver.manage.window.resize_to(WINDOW_WIDTH, WINDOW_HEIGHT)
     driver.manage.timeouts.implicit_wait = DOM_WAIT_TIMEOUT_SECONDS
@@ -108,5 +108,13 @@ class Scraper
 
   def filename_safe_target_book_title
     target_book_title.gsub(SPECIAL_CHARACTERS, "").split.join("_").downcase
+  end
+
+  def chromedriver_path
+    @chromedriver_path ||= begin
+      return "bin/chromedriver" if File.exist?("bin/chromedriver")
+      return "/usr/local/bin/chromedriver" if File.exist?("/usr/local/bin/chromedriver")
+      raise "Sorry, I couldn't find the chromedriver binanary"
+    end
   end
 end
