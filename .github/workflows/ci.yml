@@ -12,16 +12,13 @@ jobs:
   build:
 
     runs-on: macos-10.15
-    strategy:
-      matrix:
-        ruby-version: ['2.6', '2.7', '3.0']
 
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
+        ruby-version: '2.7.2'
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Install ChromeDriver
       run: |

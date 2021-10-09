@@ -3,7 +3,7 @@ require_relative "../test_helper"
 class ScraperTest < Test::Unit::TestCase
 
   def test_gathers_required_values_for_scraping
-    scraper = Scraper.new(book_page_url: "https://www.amazon.com/REIGN-Tribulation-Jeffrey-McClain-Jones-ebook/dp/B00BNPFXK8/ref=sr_1_1_sspa?dchild=1&keywords=jeffrey+mcclain+jones&qid=1627886065&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExRkpXQ0lZTkhFRlhVJmVuY3J5cHRlZElkPUEwODYxMjIyMTNQSEE3TzhPRzBRNCZlbmNyeXB0ZWRBZElkPUEwMzEzODgzTTVTWTBCWkJORlYxJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==")
+    scraper = Scraper.new(book_page_url: "https://www.amazon.com/REIGN-Tribulation-Jeffrey-McClain-Jones-ebook/dp/B00BNPFXK8")
 
     assert_equal "The REIGN: Out of Tribulation", scraper.target_book_title
     assert scraper.carousel_id > 0
@@ -17,7 +17,7 @@ class ScraperTest < Test::Unit::TestCase
   end
 
   def test_successfully_finds_books_in_the_us
-    scraper = Scraper.new(book_page_url: "https://www.amazon.com/REIGN-Tribulation-Jeffrey-McClain-Jones-ebook/dp/B00BNPFXK8/ref=sr_1_1_sspa?dchild=1&keywords=jeffrey+mcclain+jones&qid=1627886065&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExRkpXQ0lZTkhFRlhVJmVuY3J5cHRlZElkPUEwODYxMjIyMTNQSEE3TzhPRzBRNCZlbmNyeXB0ZWRBZElkPUEwMzEzODgzTTVTWTBCWkJORlYxJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ==")
+    scraper = Scraper.new(book_page_url: "https://www.amazon.com/REIGN-Tribulation-Jeffrey-McClain-Jones-ebook/dp/B00BNPFXK8")
     scraper.run
     assert scraper.books_found.count > 10
   end
@@ -29,7 +29,7 @@ class ScraperTest < Test::Unit::TestCase
   end
 
   def test_successfully_finds_books_in_australia
-    scraper = Scraper.new(book_page_url: "https://www.amazon.com.au/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M/ref=sr_1_2?dchild=1&keywords=seeing+jesus&qid=1627944663&sr=8-2")
+    scraper = Scraper.new(book_page_url: "https://www.amazon.com.au/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M")
     scraper.run
     assert scraper.books_found.count > 10
   end
