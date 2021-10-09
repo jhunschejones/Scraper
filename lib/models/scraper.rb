@@ -81,12 +81,7 @@ class Scraper
     customers_who_bought_this_book_parent = "//*[text()='Customers who bought this item also bought']/../../.."
     customers_who_read_this_book_parent = "//*[text()='Customers who read this book also read']/../../.."
     customers_who_viewed_this_item_parent = "//*[text()='Customers who viewed this item also viewed']/../../.."
-    begin
-      carousel_header_parent = driver.find_element(:xpath, "#{customers_who_bought_this_book_parent} | #{customers_who_read_this_book_parent} | #{customers_who_viewed_this_item_parent}")
-    rescue Selenium::WebDriver::Error::NoSuchElementError => e
-      driver.save_screenshot("missing_carousel_header_parent_#{(Time.now.to_f * 1000).to_i}.png")
-      raise e
-    end
+    carousel_header_parent = driver.find_element(:xpath, "#{customers_who_bought_this_book_parent} | #{customers_who_read_this_book_parent} | #{customers_who_viewed_this_item_parent}")
 
     # === Navigate down to the carousel in the browser to trigger the JS to load ===
     customers_who_bought_this_book_header = "//*[text()='Customers who bought this item also bought']"
@@ -104,6 +99,9 @@ class Scraper
     # If there's no carousel pages count, it's likely because there's only one page
     @carousel_pages = 1 if @carousel_pages.zero?
     @books_per_carousel_page = carousel_header_parent.find_elements(:xpath, ".//*[@class='a-carousel-card']").count
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    driver.save_screenshot("missing_dom_element_#{(Time.now.to_f * 1000).to_i}.png")
+    raise e
   end
 
   def validate_required_configuration_is_present
