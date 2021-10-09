@@ -66,7 +66,7 @@ class Scraper
       begin
         driver.find_element(:css, "#sp-cc-accept").click
       rescue Selenium::WebDriver::Error::NoSuchElementError
-        driver.save_screenshot("whatsuphere.png")
+        driver.save_screenshot("missing_cookies_button_#{(Time.now.to_f * 1000).to_i}.png")
         # guess we don't need to accept cookies!
       end
     end
