@@ -14,6 +14,8 @@ Once you have completed the install steps above, you can simply run `./bin/run` 
 
 If the script fails partway through, you can look at the `./tmp/log.txt` file to see what the last successfully scraped URL was. Attempt to run the script again, pasting in the remaining URLs. If the failure persists, the script may have to be modified before proceeding.
 
+The script has been updated to run in headless mode, but if you want to still watch the browser you can run it with `SHOW_BROWSER=true ./bin/run`.
+
 ### Cleanup
 After you have saved or otherwise captured the exported data, you can use the `./bin/clean` script to remove the generated CSV files and logs between script runs.
 

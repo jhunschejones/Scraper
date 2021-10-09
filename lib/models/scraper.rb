@@ -35,7 +35,8 @@ class Scraper
           author: book_element_text[1]
         )
       end
-      next_page_button.click
+      # if there's only one page of books, there won't be an actionable next page button
+      next_page_button.click unless carousel_pages == 1
       # === Execute CLI tracking block or callback after each page is done ===
       yield if block_given?
       # === Allow JS to load for next carousel page ===
@@ -53,15 +54,21 @@ class Scraper
   def start_driver
     raise "book_page_url is required" if book_page_url.empty?
     service = Selenium::WebDriver::Service.chrome(path: chromedriver_path)
-    driver_options = Selenium::WebDriver::Chrome::Options.new(binary: chromedriver_path)
-    @driver = Selenium::WebDriver.for(:chrome, service: service)
+    driver_args = ENV["SHOW_BROWSER"] == "true" ? [] : ["--headless"]
+    options = Selenium::WebDriver::Chrome::Options.new(args: driver_args)
+    @driver = Selenium::WebDriver.for(:chrome, service: service, options: options)
     driver.manage.window.resize_to(WINDOW_WIDTH, WINDOW_HEIGHT)
     driver.manage.timeouts.implicit_wait = DOM_WAIT_TIMEOUT_SECONDS
     driver.get(book_page_url)
 
     if book_page_url.include?("www.amazon.co.uk")
-      # === Accept cookies in the UK ===
-      driver.find_element(:css, "#sp-cc-accept").click
+      # === Accept cookies in the UK, if asked ===
+      begin
+        driver.find_element(:css, "#sp-cc-accept").click
+      rescue Selenium::WebDriver::Error::NoSuchElementError
+        driver.save_screenshot("missing_cookies_button_#{(Time.now.to_f * 1000).to_i}.png")
+        # guess we don't need to accept cookies!
+      end
     end
 
     # === NOTE ABOUT UI VERSIONS: ===
@@ -89,6 +96,8 @@ class Scraper
     @carousel_verb = carousel_header_parent.text.split("\n").first.split.last
     @next_page_button = carousel_header_parent.find_element(:css, ".a-carousel-goto-nextpage")
     @carousel_pages = carousel_header_parent.find_element(:xpath, ".//*[@class='a-carousel-page-max']").text.to_i
+    # If there's no carousel pages count, it's likely because there's only one page
+    @carousel_pages = 1 if @carousel_pages.zero?
     @books_per_carousel_page = carousel_header_parent.find_elements(:xpath, ".//*[@class='a-carousel-card']").count
   end
 

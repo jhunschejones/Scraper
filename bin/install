@@ -27,6 +27,7 @@ fi
 
 if ls -la .git >/dev/null 2>&1; then
   echo "Pulling the latest code..."
+  git checkout main
   git pull -q
 fi
 
