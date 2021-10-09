@@ -22,11 +22,11 @@ class ScraperTest < Test::Unit::TestCase
     assert scraper.books_found.count > 10
   end
 
-  # def test_successfully_finds_books_in_the_uk
-  #   scraper = Scraper.new(book_page_url: "https://www.amazon.co.uk/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M/ref=sr_1_1?dchild=1&keywords=seeing+jesus&qid=1627944060&sr=8-1")
-  #   scraper.run
-  #   assert scraper.books_found.count > 10
-  # end
+  def test_successfully_finds_books_in_the_uk
+    scraper = Scraper.new(book_page_url: "https://www.amazon.co.uk/Sharing-Jesus-Seeing-Book-ebook/dp/B01E0EP1YG")
+    scraper.run
+    assert scraper.books_found.count > 10
+  end
 
   def test_successfully_finds_books_in_australia
     scraper = Scraper.new(book_page_url: "https://www.amazon.com.au/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M/ref=sr_1_2?dchild=1&keywords=seeing+jesus&qid=1627944663&sr=8-2")
