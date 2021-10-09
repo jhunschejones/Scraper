@@ -81,7 +81,12 @@ class Scraper
     customers_who_bought_this_book_parent = "//*[text()='Customers who bought this item also bought']/../../.."
     customers_who_read_this_book_parent = "//*[text()='Customers who read this book also read']/../../.."
     customers_who_viewed_this_item_parent = "//*[text()='Customers who viewed this item also viewed']/../../.."
-    carousel_header_parent = driver.find_element(:xpath, "#{customers_who_bought_this_book_parent} | #{customers_who_read_this_book_parent} | #{customers_who_viewed_this_item_parent}")
+    begin
+      carousel_header_parent = driver.find_element(:xpath, "#{customers_who_bought_this_book_parent} | #{customers_who_read_this_book_parent} | #{customers_who_viewed_this_item_parent}")
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      driver.save_screenshot("missing_carousel_header_parent_#{(Time.now.to_f * 1000).to_i}.png")
+      raise e
+    end
 
     # === Navigate down to the carousel in the browser to trigger the JS to load ===
     customers_who_bought_this_book_header = "//*[text()='Customers who bought this item also bought']"
