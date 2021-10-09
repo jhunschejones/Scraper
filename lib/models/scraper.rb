@@ -62,8 +62,12 @@ class Scraper
     driver.get(book_page_url)
 
     if book_page_url.include?("www.amazon.co.uk")
-      # === Accept cookies in the UK ===
-      driver.find_element(:css, "#sp-cc-accept").click
+      # === Accept cookies in the UK, if asked ===
+      begin
+        driver.find_element(:css, "#sp-cc-accept").click
+      rescue Selenium::WebDriver::Error::NoSuchElementError
+        # guess we don't need to accept cookies!
+      end
     end
 
     # === NOTE ABOUT UI VERSIONS: ===
