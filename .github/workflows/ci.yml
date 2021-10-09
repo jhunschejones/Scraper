@@ -12,7 +12,6 @@ jobs:
   build:
 
     runs-on: macos-10.15
-    continue-on-error: true
     strategy:
       matrix:
         ruby-version: ['2.6', '2.7', '3.0']
@@ -36,7 +35,9 @@ jobs:
           && sudo chmod +x /usr/local/bin/chromedriver \
           && chromedriver --version --no-sandbox
     - name: Run tests
-      run: SHOW_BROWSER=true bundle exec ./bin/test
+      run: bundle exec ./bin/test
+      env:
+        SHOW_BROWSER: true
     - name: Archive test screenshots
       if: always()
       uses: actions/upload-artifact@v2
