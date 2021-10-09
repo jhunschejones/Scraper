@@ -1,5 +1,7 @@
 # Scraper
 
+[![CI](https://github.com/jhunschejones/Scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/jhunschejones/Scraper/actions/workflows/ci.yml)
+
 Scraper is a Ruby script that uses `selenium-webdriver` to load an Amazon book details page and programmatically generate a list of book titles and authors that readers of the target book have also read or bought.
 
 ## Using The Script
