@@ -34,9 +34,9 @@ jobs:
           && rm -rf chromedriver_linux64.zip \
           && sudo mv chromedriver /usr/local/bin/chromedriver \
           && sudo chmod +x /usr/local/bin/chromedriver \
-          && chromedriver --version --no-sandbox --headless
+          && chromedriver --version --no-sandbox
     - name: Run tests
-      run: bundle exec ./bin/test
+      run: SHOW_BROWSER=true bundle exec ./bin/test
     - name: Archive test screenshots
       if: always()
       uses: actions/upload-artifact@v2
