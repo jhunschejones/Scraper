@@ -56,7 +56,7 @@ class Scraper
     service = Selenium::WebDriver::Service.chrome(path: chromedriver_path)
     driver_args = ENV["SHOW_BROWSER"] == "true" ? [] : ["--headless"]
     options = Selenium::WebDriver::Chrome::Options.new(args: driver_args)
-    @driver = Selenium::WebDriver.for(:chrome, service: service, options: options)
+    @driver = Selenium::WebDriver.for(:chrome, service: service, capabilities: options)
     driver.manage.window.resize_to(WINDOW_WIDTH, WINDOW_HEIGHT)
     driver.manage.timeouts.implicit_wait = DOM_WAIT_TIMEOUT_SECONDS
     driver.get(book_page_url)

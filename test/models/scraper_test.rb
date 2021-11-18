@@ -19,24 +19,24 @@ class ScraperTest < Test::Unit::TestCase
   def test_successfully_finds_books_in_the_us
     scraper = Scraper.new(book_page_url: "https://www.amazon.com/REIGN-Tribulation-Jeffrey-McClain-Jones-ebook/dp/B00BNPFXK8")
     scraper.run
-    assert scraper.books_found.count > 10
+    assert scraper.books_found.count > 2, "Found #{scraper.books_found.count} books which was less than expected"
   end
 
   def test_successfully_finds_books_in_the_uk
     scraper = Scraper.new(book_page_url: "https://www.amazon.co.uk/Sharing-Jesus-Seeing-Book-ebook/dp/B01E0EP1YG")
     scraper.run
-    assert scraper.books_found.count > 10
+    assert scraper.books_found.count > 2, "Found #{scraper.books_found.count} books which was less than expected"
   end
 
   def test_successfully_finds_books_in_australia
     scraper = Scraper.new(book_page_url: "https://www.amazon.com.au/Seeing-Jesus-Jeffrey-McClain-Jones-ebook/dp/B00D8KZH0M")
     scraper.run
-    assert scraper.books_found.count > 10
+    assert scraper.books_found.count > 2, "Found #{scraper.books_found.count} books which was less than expected"
   end
 
   def test_successfully_finds_books_in_canada
     scraper = Scraper.new(book_page_url: "https://www.amazon.ca/Sharing-Jesus-Seeing-Book-ebook/dp/B01E0EP1YG")
     scraper.run
-    assert scraper.books_found.count > 10
+    assert scraper.books_found.count > 2, "Found #{scraper.books_found.count} books which was less than expected"
   end
 end
