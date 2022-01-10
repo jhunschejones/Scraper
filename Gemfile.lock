@@ -10,11 +10,11 @@ GEM
       method_source (~> 1.0)
     rexml (3.2.5)
     rubyzip (2.3.2)
-    selenium-webdriver (4.0.3)
+    selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    test-unit (3.5.1)
+    test-unit (3.5.3)
       power_assert
 
 PLATFORMS
